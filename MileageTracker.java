@@ -9,10 +9,9 @@ public class MileageTracker
     /*
      * 2. Define the instance variables (store the object's attributes):
      */
-
-
-
-
+    
+    
+    
 
 
     
@@ -29,11 +28,31 @@ public class MileageTracker
     
     /*
      * 1. Define methods by specifying:
+     * The visibility (i.e., public, private)
+     * the return type (i.e., void, int, bool, double)
+     * the method name (i.e., incrementDistanceDriven, getDistanceDriven) 
+     * the parameters and their types (e.g., miles or type int) 
+     * 
+     */
+    /**
+     * Increments the number of miles that the car has driven.
+     * 
+     * @param miles the additional distance, in miles, this car has driven
+     */
+    public void incrementDistanceDriven(int miles){
+        
+    }
+    
+    
+    /**
+     * Returns the total number of miles driven.
+     * 
+     * @return the total numberj of miles driven.
      */
     
-    
-    
-    
+    public int getDistanceDriven(){
+        return 0;
+    }
     
     
     /**
