@@ -98,6 +98,15 @@ public class CaesarCipher
          * 
          * If the two operands are of different types, Java attempts to promot one
          *      of the operands (widening conversion) and then performs the operation.
+         *      
+         *      In this case, both SECONDS_FOR_EVERY_MINUTE and MINUTES_FOR_EVERY_HOURE are ints;
+         *          so, Java doesn't preform any promotion, and instread performs the multiplication and returns the result as an int. Only after 
+         *          all three multiplications does Java promote the int vakye of the resulting product to a kibf and then assigns it to SECONDS_FOR_EVERY_YEAR
+         *      
+         *      
+         *      This promotion may be too late! If the multiplication overflows an int, 
+         *          the wrong value will be promoted to a long and stored. 
+         *      
          */
         
         final long SECONDS_FOR_EVERY_YEAR = SECONDS_FOR_EVERY_MINUTE * MINUTES_FOR_EVERY_HOUR * HOURS_FOR_EVERY_DAY * HOURS_FOR_EVERY_DAY; 
@@ -105,6 +114,27 @@ public class CaesarCipher
         String desc = "Average time to crack: " + wholeYears + " years, " + leftoverDays +
         " days, " + leftoverHours + " hours, " + leftoverMinutes + " minutes, " +
         leftOverSeconds + " seconds\n";
+        
+        yearAsDecimal = yearAsDecimal / SECONDS_FOR_EVERY_YEAR;
+        desc+="or " + yearAsDecimal + " years\n";
+        
+        
+        /*
+         * To force a conversion, use the cast operator, 
+         *      A cast is the "I know what I'm doing" conversion.
+         *      
+         * (int)84.986 ==> truncates to an int with a value of 84
+         * (int)(3.6+0.5) ==> truncating 4.1 to an int with a value of 4
+         * 
+         * If we want to round a double to the nearest integer, one aproach is to add 0.5
+         *  and then case the result to an integer, which truncates the decimal portion.
+         *  
+         * The following divides yearsADecimal by 10,then round the resulting long 
+         *  to an int. 
+         */
+        int decades = (int) ((yearAsDecimal / 10)+0.5);
+        desc += "or about "+decades + " decades\n";
+        
         //If we try to change the value, a compiler error will be generated 
         //SECONDS_FOR_EVERY_MINUTE = 30;
         return desc;
