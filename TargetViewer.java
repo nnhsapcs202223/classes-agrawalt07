@@ -25,5 +25,4 @@ public class TargetViewer
 
         frame.setVisible(true);
     }
-
 }
