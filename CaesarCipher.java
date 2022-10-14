@@ -10,26 +10,29 @@ import java.util.Scanner;
  */
 public class CaesarCipher
 {
+    /*
+     * static: same value for the variable for all objects in the class.
+     *      This is like class attributes in Python. 
+     *      Static class variables can be accessed directly through the class
+     *              (e.g., CaesarCipher.ALPHABET, Math.PI, Color.RED).
+     */
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    
+
     private String keyphrase;
-    
+
     public CaesarCipher(String initialKeyphrase){
         //prepare the keyphrase by removing duplicate letters
         this.compressKeyphrase(initialKeyphrase);
     }
-    
-    
-    
-    
-      /**
-       * Returns a string that describes the average time to crack the cipher, 
-       *        in several formats, based on the specified number of seconds oer guess.
-       * 
-       * @param secPerGuess the number of seconds to evaluate each attempt 
-       * @return a string that describes the average time to crack the cipher
-       *      
-       */
+
+    /**
+     * Returns a string that describes the average time to crack the cipher, 
+     *        in several formats, based on the specified number of seconds oer guess.
+     * 
+     * @param secPerGuess the number of seconds to evaluate each attempt 
+     * @return a string that describes the average time to crack the cipher
+     *      
+     */
     public String getComplexityDescription(int secPerGuess){
         /*
          * Instead of using a "magic number" (e.g., 3.14159), use constants defined by us or the Java Standard Library. For example, in the Math class is defined: 
@@ -44,7 +47,7 @@ public class CaesarCipher
         //one method in a class can invoke another method in the same class
         //      we invoke the method on "this"
         long totalSeconds = this.calculateAverageTimeToCrack(secPerGuess);
-        
+
         /*
          *Use integer division to caluclate how many whole minutes are in the specified number of seconds. 
          *      
@@ -60,7 +63,7 @@ public class CaesarCipher
          *      
          */
         long wholeMinutes = totalSeconds / SECONDS_FOR_EVERY_MINUTE; 
-        
+
         /*
          * Use the modulo operator to calucalate how many seconds are leftover. 
          * 
@@ -76,20 +79,18 @@ public class CaesarCipher
          *      
          * % 2 is usually used to test odd/even (odd => 1; even => 0)     
          */
-    
+
         long leftOverSeconds = totalSeconds % SECONDS_FOR_EVERY_MINUTE;
-        
-        
+
         long wholeHours = wholeMinutes / MINUTES_FOR_EVERY_HOUR;
         long leftoverMinutes = wholeMinutes % MINUTES_FOR_EVERY_HOUR;
-    
+
         long wholeDays = wholeHours / HOURS_FOR_EVERY_DAY;
         long leftoverHours = wholeHours % HOURS_FOR_EVERY_DAY;
-    
+
         long wholeYears = wholeDays / DAYS_FOR_EVERY_YEAR;
         long leftoverDays = wholeDays % DAYS_FOR_EVERY_YEAR;
-        
-        
+
         /*
          * A conversion is when a data value is converted from one type to another. 
          *      (e.g., int to double, double to int, int to long
@@ -100,7 +101,7 @@ public class CaesarCipher
          * Java only automatically performs wedening conversions. 
          */
         double yearAsDecimal = totalSeconds;
-        
+
         /*
          * Arithmetic Promotion 
          * 
@@ -116,17 +117,16 @@ public class CaesarCipher
          *          the wrong value will be promoted to a long and stored. 
          *      
          */
-        
+
         final long SECONDS_FOR_EVERY_YEAR = SECONDS_FOR_EVERY_MINUTE * MINUTES_FOR_EVERY_HOUR * HOURS_FOR_EVERY_DAY * HOURS_FOR_EVERY_DAY; 
-        
+
         String desc = "Average time to crack: " + wholeYears + " years, " + leftoverDays +
-        " days, " + leftoverHours + " hours, " + leftoverMinutes + " minutes, " +
-        leftOverSeconds + " seconds\n";
-        
+            " days, " + leftoverHours + " hours, " + leftoverMinutes + " minutes, " +
+            leftOverSeconds + " seconds\n";
+
         yearAsDecimal = yearAsDecimal / SECONDS_FOR_EVERY_YEAR;
         desc+="or " + yearAsDecimal + " years\n";
-        
-        
+
         /*
          * To force a conversion, use the cast operator, 
          *      A cast is the "I know what I'm doing" conversion.
@@ -142,12 +142,12 @@ public class CaesarCipher
          */
         int decades = (int) ((yearAsDecimal / 10)+0.5);
         desc += "or about "+decades + " decades\n";
-        
+
         //If we try to change the value, a compiler error will be generated 
         //SECONDS_FOR_EVERY_MINUTE = 30;
         return desc;
     }
-    
+
     /**
      * Compress the specified key0phrase by removing all duplicate letters.
      * 
@@ -155,13 +155,13 @@ public class CaesarCipher
      */
     private void compressKeyphrase(String initKeyphrase){
         this.keyphrase = "";
-        
+
         /*
          * length
          *      returns the number of characters in the string
          */
         int keyphraseLength = initKeyphrase.length();
-        
+
         for(int i = 0; i<keyphraseLength; i++){
             /*
              * substring
@@ -190,8 +190,7 @@ public class CaesarCipher
              *      length: 6     
              */
             String letter = initKeyphrase.substring(i, i+1);
-            
-            
+
             String restOfKeyphrase = initKeyphrase.substring(i + 1);
             /*
              * indexOf 
@@ -208,7 +207,7 @@ public class CaesarCipher
              *  For example, restOfKeyphrase("SA") => returns 2
              */
             int index = restOfKeyphrase.indexOf(letter);
-            
+
             /*
              * String concatenation
              *      + is the string concatenation operator 
@@ -221,25 +220,17 @@ public class CaesarCipher
              * int x = 7;
              * String xAsString = "" + x;       //xAsString ==> "7"
              */
-            
+
             if (index == -1)  //if the letter is not a duplicate
             {
                 this.keyphrase = this.keyphrase + letter;
                 // same as: this.keyphrase += letter;
-                
-            }
-            
 
-            
+            }
+
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
     /**
      * Encrypts the specified text using the specified keyphrase using a
      *      keyphrase-enhanced Caesar Cipher.
@@ -316,7 +307,7 @@ public class CaesarCipher
         int lettersRemaining = NUMBER_OF_LETTERS_IN_ALPHABET;
         int keyphraseLength = this.keyphrase.length();
         long combinations = 1;
-        
+
         /*
          * Calculate the number of combintations for the specified keyphrase length.
          *  For example, if the keyphrase is six characters long:
@@ -335,5 +326,49 @@ public class CaesarCipher
         // average time is half the worst time since the best time is cracking the
         //  cipher on the first attempt
         return worstCaseTimeToCrack/2;
+    }
+
+    /*
+     * This method is static and, therefore, is independant of the state of a 
+     *      CaesarCipher object.
+     * As a result this method may be invoked on a class instead of a variable 
+     *      That references an object. 
+     *      
+     *      CaesarCipher.generateKeyphrase(7);
+     *      
+     * In addition, this method cannot access any instance variables or invoke 
+     *      any non-static methods (there is no "This")
+     *      
+     */
+    /**
+     * Generates a pseudorandom keyphrase of the specified length in characters
+     * 
+     * @param length the number of characters in the keyphrase
+     * @return a pseudorandom keyphrase of the specified length 
+     */
+
+    public static String generateKeyphrase(int length){
+        String keyphrase = "";
+        for(int i = 0; i<length;i++){
+            /*
+             * The Math.random static method returns a double [0.0 ... 1.0)
+             * 
+             * Often we use the following algorithim to to generate random integers from 
+             *      [min ... max]:
+             *      
+             *      int n = (int)((Math.random() * (man-min+1))+min);
+             *      
+             * For example: generate a random int [0 ... 25]
+             * 
+             * A B C D E F G H I J K L M N O P Q R S T U V X Y Z
+             * 0 1 2 3 4 5 6 7 8 9 ...                         25 <== indicies
+             * 
+             */
+            int letterIndex = (int)(Math.random()*26);
+            keyphrase += CaesarCipher.ALPHABET.substring(letterIndex, letterIndex + 1);
+        }
+        return keyphrase;
+        
+        
     }
 }
